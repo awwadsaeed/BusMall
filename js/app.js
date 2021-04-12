@@ -5,6 +5,7 @@ let maxAttemps = 10;
 let firstElementIndex;
 let secondElementIndex;
 let lastElementIndex;
+let counter=0;
 let mainElement = document.getElementById('mainContainer');
 let firstElement = document.getElementById('first');
 let secondElement = document.getElementById('second');
@@ -72,4 +73,25 @@ function renderImages() {
 }
 
 renderImages();
+
+//handle user clicks
+mainElement.addEventListener('click',userClicks);
+
+function userClicks(event){
+    if(counter<=maxAttemps){
+        if(event.target.id=='first'){
+            counter++;
+            allStuff[firstElementIndex].selected++;
+            console.log(counter);
+        }else if(event.target.id=='second'){
+            counter++;
+            allStuff[secondElementIndex].selected++;
+            console.log(counter);
+        }else if(event.target.id == 'last'){
+            counter++;
+            allStuff[lastElementIndex].selected++;
+            console.log(counter);
+        }
+    }
+}
 
