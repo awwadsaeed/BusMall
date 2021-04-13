@@ -3,9 +3,8 @@ img{
     height: 300px;
     margin-left: 30px;
     margin-right:30px;
-}
-img:hover{
-    box-shadow: 12px 12px 4px #a07944;
+    box-shadow: 0px 0px 11px #a07a44;
+    border-radius: 20px;
 }
 button{
     display: block;
@@ -16,6 +15,7 @@ body{
     background-color: #fbb24a;
 }
 body header{
+    text-align: center;
     height: 80px;
     background-color: #b86e00;
 }
@@ -46,4 +46,12 @@ body main ul li{
     color: #ffd986;
     font-weight: bold;
     font-size: 18px;
+}
+#chartContainer{
+    height: 400px;
+    width: 80%;
+    margin: 10%;
+}
+canvas{
+    border: black 1px;
 }
