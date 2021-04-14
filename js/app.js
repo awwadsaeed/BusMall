@@ -4,8 +4,8 @@ let allStuff = [];
 let maxAttemps = 10;
 let prev = [0, 0, 0];
 let selected = [];
-let shown =[];
-let names=[];
+let shown = [];
+let names = [];
 let firstElementIndex;
 let secondElementIndex;
 let lastElementIndex;
@@ -24,9 +24,10 @@ function Product(name, path) {
         this.path = path,
         this.shown = 0,
         this.selected = 0;
-        names.push(this.name);
+    names.push(this.name);
 
     allStuff.push(this);
+   
 }
 //create instances
 new Product('bag', 'img/bag.jpg');
@@ -63,7 +64,7 @@ function renderImages() {
     secondElementIndex = randomNumber();
     lastElementIndex = randomNumber();
 
-    while (firstElementIndex == secondElementIndex || firstElementIndex == lastElementIndex || secondElementIndex == lastElementIndex ||prev.includes(firstElementIndex)||prev.includes(secondElementIndex)||prev.includes(lastElementIndex)) {
+    while (firstElementIndex == secondElementIndex || firstElementIndex == lastElementIndex || secondElementIndex == lastElementIndex || prev.includes(firstElementIndex) || prev.includes(secondElementIndex) || prev.includes(lastElementIndex)) {
         firstElementIndex = randomNumber();
         secondElementIndex = randomNumber();
         lastElementIndex = randomNumber();
@@ -79,6 +80,7 @@ function renderImages() {
 
 }
 
+renderImages();
 
 
 //handle user clicks
@@ -90,31 +92,32 @@ function userClicks(event) {
         if (event.target.id === 'first') {
             counter++;
             allStuff[firstElementIndex].selected++;
-            console.log(counter);
+            // console.log(counter);
         }
         else if (event.target.id === 'second') {
             counter++;
             allStuff[secondElementIndex].selected++;
-            console.log(counter);
+            // console.log(counter);
         }
         else if (event.target.id === 'last') {
             counter++;
             allStuff[lastElementIndex].selected++;
-            console.log(counter);
+            // console.log(counter);
         }
 
         renderImages();
+        setStorage();
     } else {
         mainElement.removeEventListener('click', userClicks);
     }
 
     if (counter == maxAttemps) {
         mainElement.appendChild(button)
-        for(let i=0;i<allStuff.length;i++){
+        for (let i = 0; i < allStuff.length; i++) {
             selected.push(allStuff[i].selected);
             shown.push(allStuff[i].shown);
         }
-        
+
 
     }
 }
@@ -130,43 +133,58 @@ function showResults(event) {
     chart();
     button.removeEventListener('click', showResults);
 }
-renderImages();
+//chart info
 function chart() {
     let chr = document.getElementById('barChart').getContext('2d');
-    
-    let chart= new Chart(chr,{
-      // what type is the chart
-     type: 'bar',
-  
-    //  the data for showing
-     data:{
-      //  for the names
-        labels: names,
-        
-        datasets: [
-          {
-          label: 'selected',
-          data: selected,
-          backgroundColor: [
-            'rgb(200, 0, 0,0.5)',
-          ],
-    
-          borderWidth: 1
+
+    let chart = new Chart(chr, {
+        // what type is the chart
+        type: 'bar',
+
+        //  the data for showing
+        data: {
+            //  for the names
+            labels: names,
+
+            datasets: [
+                {
+                    label: 'selected',
+                    data: selected,
+                    backgroundColor: [
+                        'rgb(200, 0, 0,0.5)',
+                    ],
+
+                    borderWidth: 1
+                },
+
+                {
+                    label: 'products displayed',
+                    data: shown,
+                    backgroundColor: [
+                        'rgb(0,0,200,0.5)',
+                    ],
+
+                    borderWidth: 1
+                }]
         },
-  
-        {
-          label: 'products displayed',
-          data: shown,
-          backgroundColor: [
-            'rgb(0,0,200,0.5)',
-          ],
-    
-          borderWidth: 1
-        }
-        
-      ]
-      },
-      options: {}
+        options: {}
     });
-    
-  }
+
+}
+
+//set local storage
+function setStorage(){
+    let data = JSON.stringify(allStuff);
+    localStorage.setItem('products',data);
+}
+//get data from local storage
+function getData(){
+    let info=localStorage.getItem('products');
+    let productsArr = JSON.parse(info);
+    if(productsArr!==null){
+        allStuff=productsArr;
+    }
+    renderImages();
+}
+
+getData();
